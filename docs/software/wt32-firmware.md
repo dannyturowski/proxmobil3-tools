@@ -18,7 +18,7 @@ Pins and build options live in `accessory/firmware/src/CMakeLists.txt`. GPIO2 an
 
 ## Bootstrap a build machine
 
-Linux or WSL2, with Python 3.8 or later and about 2 GB free.
+Linux or WSL2, with Python 3.9 or later and about 2 GB free. The pinned [PlatformIO 6.2.0 release](https://pypi.org/project/platformio/6.2.0/) requires Python 3.9+.
 
 ```sh
 python3 -m venv ~/.venvs/platformio
