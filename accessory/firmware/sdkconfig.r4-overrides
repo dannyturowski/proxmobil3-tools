@@ -1,0 +1,67 @@
+# wt32-r4 overrides on top of the Arduino 2.0.17 SDK configuration (tools/sdk/esp32/sdkconfig of
+# framework-arduinoespressif32 3.20017.241212, i.e. what wt32-r1 and wt32-r3 ran).  tools/gen_sdkconfig_defaults.py
+# removes every symbol named here from that base and appends this file -> firmware/sdkconfig.defaults.
+# "# CONFIG_X is not set" lines count as overrides too.
+
+# ---- router: IPv4 forwarding + NAPT (esp-lwip ip4_napt.c); NAPT selects LWIP_L2_TO_L3_COPY ----
+CONFIG_LWIP_IP_FORWARD=y
+CONFIG_LWIP_IPV4_NAPT=y
+CONFIG_LWIP_L2_TO_L3_COPY=y
+# lwip_stats: forwarded / no-route counters and NAPT table occupancy for DIAG, NETDIAG and /net
+CONFIG_LWIP_STATS=y
+
+# ---- forwarding throughput ----
+# lwIP hot paths in IRAM; a deeper tcpip mailbox (every forwarded frame is one message)
+CONFIG_LWIP_IRAM_OPTIMIZATION=y
+CONFIG_LWIP_TCPIP_RECVMBOX_SIZE=64
+# the NAPT path runs in the tcpip thread: more stack than Arduino's 2560
+CONFIG_LWIP_TCPIP_TASK_STACK_SIZE=4096
+# Buffers: wt32-r2 raised these for throughput (ETH DMA 30/30, Wi-Fi static RX 16 / dynamic RX 64 / dynamic
+# TX 64, BA windows 32/16).  wt32-r4 runs next to r3's ToF task and diagnostics buffers, so it stays close to
+# what r3 (Arduino's SDK) runs on this board today, as asked in the r4 reviews; raise only on measured evidence
+# (heap.min in /diag under a 4 MiB SSH transfer).  The Wi-Fi station is the throughput ceiling anyway.
+# Ethernet DMA: 512-byte buffers, a full frame takes 3: 16 = 5 frames (r3: 10, r2: 30); +6 KB vs r3.
+CONFIG_ETH_DMA_RX_BUFFER_NUM=16
+CONFIG_ETH_DMA_TX_BUFFER_NUM=16
+# Wi-Fi TX: dynamic buffers (allocated per frame, freed after send; IDF default 32) instead of Arduino's 8
+# static ones, so forwarded bursts from Ethernet are not dropped at the radio; RX and block-ack as r3.
+# CONFIG_ESP32_WIFI_STATIC_TX_BUFFER is not set
+CONFIG_ESP32_WIFI_DYNAMIC_TX_BUFFER=y
+CONFIG_ESP32_WIFI_TX_BUFFER_TYPE=1
+CONFIG_ESP32_WIFI_DYNAMIC_TX_BUFFER_NUM=32
+CONFIG_ESP32_WIFI_STATIC_RX_BUFFER_NUM=8
+CONFIG_ESP32_WIFI_DYNAMIC_RX_BUFFER_NUM=32
+CONFIG_ESP32_WIFI_TX_BA_WIN=6
+CONFIG_ESP32_WIFI_RX_BA_WIN=6
+# -O2 instead of -Os (the app still fits the 0x140000 slot with a wide margin; see BUILD-REPORT.md)
+# CONFIG_COMPILER_OPTIMIZATION_SIZE is not set
+CONFIG_COMPILER_OPTIMIZATION_PERF=y
+
+# ---- UART0 carries link frames only (r1: -DCORE_DEBUG_LEVEL=0 and esp_log_level_set("*", NONE)) ----
+# CONFIG_ARDUHAL_LOG_DEFAULT_LEVEL_ERROR is not set
+CONFIG_ARDUHAL_LOG_DEFAULT_LEVEL_NONE=y
+# CONFIG_LOG_DEFAULT_LEVEL_ERROR is not set
+CONFIG_LOG_DEFAULT_LEVEL_NONE=y
+
+# ---- board: WT32-ETH01 has no PSRAM and the firmware never uses Bluetooth ----
+# Without SPIRAM the -mfix-esp32-psram-cache-issue workaround (a memw after every store) is gone.
+# CONFIG_ESP32_SPIRAM_SUPPORT is not set
+# CONFIG_SPIRAM is not set
+# CONFIG_SPIRAM_SUPPORT is not set
+# CONFIG_BT_ENABLED is not set
+
+# ---- flash image: DIO / 40 MHz / 4 MB, Arduino default.csv layout (as r1) ----
+# CONFIG_ESPTOOLPY_FLASHMODE_QIO is not set
+CONFIG_ESPTOOLPY_FLASHMODE_DIO=y
+CONFIG_ESPTOOLPY_FLASHMODE="dio"
+# CONFIG_ESPTOOLPY_FLASHFREQ_80M is not set
+CONFIG_ESPTOOLPY_FLASHFREQ_40M=y
+CONFIG_ESPTOOLPY_FLASHFREQ="40m"
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+CONFIG_ESPTOOLPY_FLASHSIZE="4MB"
+# CONFIG_ESPTOOLPY_FLASHSIZE_DETECT is not set
+# CONFIG_PARTITION_TABLE_SINGLE_APP is not set
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+CONFIG_PARTITION_TABLE_FILENAME="partitions.csv"
+CONFIG_PARTITION_TABLE_OFFSET=0x8000

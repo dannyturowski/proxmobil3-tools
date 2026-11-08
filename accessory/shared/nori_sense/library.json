@@ -1,0 +1,8 @@
+{
+  "name": "nori_sense",
+  "version": "3.0.0",
+  "description": "wt32-r3: portable presence detector, VL53L5CX supervisor, transition log and reset records (host-tested)",
+  "frameworks": "*",
+  "platforms": "*",
+  "build": { "srcDir": "src", "includeDir": "src" }
+}

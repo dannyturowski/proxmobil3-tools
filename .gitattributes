@@ -1,0 +1,6 @@
+*.sh text eol=lf
+Makefile text eol=lf
+*.conf.example text eol=lf
+*.stl binary
+*.jpg binary
+*.png binary

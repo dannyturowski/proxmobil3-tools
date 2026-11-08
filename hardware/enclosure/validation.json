@@ -1,0 +1,47 @@
+{
+  "checked": "2026-11-07",
+  "cadquery": "2.8.0",
+  "valid_solids": 6,
+  "source_rebuild": "passed all built-in geometric assertions",
+  "export_match": "STEP text identical after normalizing FILE_NAME timestamp only",
+  "normalized_step_sha256": "302ec8a5d958b6c09160ceb30a6f2666a123d3e8eb56024a7ae223ff73ec196d",
+  "physical_fit": "not established; see README known issues",
+  "stl_closed_mesh_checks": [
+    {
+      "file": "back-cover-v18.stl",
+      "triangles": 26200,
+      "nonmanifold_edge_count": 0,
+      "volume_mm3": 208051.284
+    },
+    {
+      "file": "battery-retainer-v18.stl",
+      "triangles": 484,
+      "nonmanifold_edge_count": 0,
+      "volume_mm3": 4343.5
+    },
+    {
+      "file": "battery-rocker-tunnel-v18.stl",
+      "triangles": 1408,
+      "nonmanifold_edge_count": 0,
+      "volume_mm3": 5727.724
+    },
+    {
+      "file": "proxdongle-tunnel-v18.stl",
+      "triangles": 1622,
+      "nonmanifold_edge_count": 0,
+      "volume_mm3": 8025.144
+    },
+    {
+      "file": "right-sponson-v18.stl",
+      "triangles": 7610,
+      "nonmanifold_edge_count": 0,
+      "volume_mm3": 32855.524
+    },
+    {
+      "file": "sponson-service-lid-v18.stl",
+      "triangles": 2048,
+      "nonmanifold_edge_count": 0,
+      "volume_mm3": 8607.324
+    }
+  ]
+}

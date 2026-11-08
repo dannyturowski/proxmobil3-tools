@@ -1,0 +1,5 @@
+# Python packages for the accessory tools on a PC (not needed on the PM3).
+# Versions are those the host tests ran with; the PM3 tools in pm3/ need none of these.
+requests==2.32.3      # tools/nori_http_ota.py, tests/test_http_ota.py
+pyserial==3.5         # tools/nori_serial_log.py when reading a real serial port
+# Firmware builds: PlatformIO Core, tested with 6.2.0 (see docs/software/wt32-firmware.md).

@@ -1,0 +1,9 @@
+{
+  "name": "vl53l5cx_uld",
+  "version": "1.3.9",
+  "description": "ST VL53L5CX Ultra Lite Driver VL53L5CX_1.3.9 (STMicroelectronics/stm32-vl53l5cx v1.0.7, BSD-3-Clause, files unmodified) with a nori ESP32 platform layer",
+  "license": "BSD-3-Clause",
+  "frameworks": "*",
+  "platforms": "*",
+  "build": { "srcDir": "src", "includeDir": "src" }
+}

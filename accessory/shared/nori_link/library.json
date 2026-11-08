@@ -1,0 +1,8 @@
+{
+  "name": "nori_link",
+  "version": "1.1.0",
+  "description": "Nori accessory link protocol v1: framing, input conditioning, device core, host session (portable C99). 1.1: OTAKEY command (r2).",
+  "frameworks": "*",
+  "platforms": "*",
+  "build": { "srcDir": "src", "includeDir": "src" }
+}
